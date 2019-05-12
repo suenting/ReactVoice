@@ -7,33 +7,18 @@ var SpeechRecognitionEvent = SpeechRecognitionEvent || webkitSpeechRecognitionEv
 class VoiceCommand {
     static recognition;
     static speechRecognitionList;
-    static callbacklist;
+    static callback;
     static _init() {
         this.callbacklist = [];
         this.recognition = new SpeechRecognition();
         this.recognition.onresult = (event)=>{
-            for(let it = 0; it<this.callbacklist.length; ++it){
-                let callback = this.callbacklist[it];
-                callback.cb(event.results[0][0].transcript);
-            }
+            this.callback(event.results[0][0].transcript);
         }
     }
-    static start() {
+    static start(cb) {
+        this.callback = cb;
         this.recognition.start();
     }
-    static setcallback(cb){
-        this.callbacklist.push(cb);
-    }
-    static removecallback(cb){
-        for(let it = 0; it<this.callbacklist.length; ++it){
-            let callback = this.callbacklist[it];
-            if(callback.id === cb.id){
-                this.callbacklist.splice(0,1);
-                return;
-            }
-        }
-    }
-
 }
 VoiceCommand._init();
 export default VoiceCommand;

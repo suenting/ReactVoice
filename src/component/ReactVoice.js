@@ -13,25 +13,15 @@ class ReactVoice extends Component{
 
     }
 
-    onVoiceCommand = {
-        id: "ReactVoice",
-        cb: (line)=>{
-            this.setState({
-                line: line
-            });
-            // handle command here
-        }
+    onVoiceCommand = (line)=>{
+        this.setState({
+            line: line
+        });
+        // handle command here
     }
-
-    componentDidMount(){
-        VoiceCommand.setcallback(this.onVoiceCommand);
-    }
-    componentWillUnmount(){
-        VoiceCommand.removecallback(this.onVoiceCommand);
-    }    
 
     start(){
-        VoiceCommand.start();
+        VoiceCommand.start(this.onVoiceCommand);
     }
 
     render(){
